@@ -1,14 +1,21 @@
 import psycopg2
 
 # Function to connect Flask app to the postgres database
+
 def get_db_connection():
-    conn = psycopg2.connect(host='poc-database-pttep.postgres.database.azure.com',
-                            database='postgres',
-                            user="devops@poc-database-pttep",
-                            password="13qeadzc!#qeadzc",
-                            port=5432  
+    conn = psycopg2.connect(
+            host= 'ec2-52-48-159-67.eu-west-1.compute.amazonaws.com',
+            database= 'd2ss77ji3l4e62',
+            user= 'douhviwgjxvzvv',
+            password= '49283b6a94bab265424d2d8ae0dd2227d15ca52e9097ce2edb58f30bc5bb4412',
+            port= 5432,
+            sslmode='require'
     )
     return conn
+
+#####################
+### Create tables ###
+#####################
 
 # Function to create user table
 def create_client_table():
@@ -54,92 +61,159 @@ def init_client_table():
         return "Initialized client table successfully."
 
 
-# Create education table
-def create_education_table():
+def create_customer_table():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute('''
-            CREATE TABLE IF NOT EXISTS education(
-                    education_id serial, 
-                    degree VARCHAR(25) NOT NULL,
-                    credits integer NOT NULL,
-                    duration integer NOT NULL,
-                    earnings integer NOT NULL,
-                    PRIMARY KEY (education_id)
-            );''') 
+            CREATE TABLE IF NOT EXISTS customer (
+                customer_id uuid NOT NULL,
+                firstname varchar(50) NOT NULL,
+                lastname varchar(50) NOT NULL,
+                gender varchar(50) NOT NULL,
+                email varchar(50) NOT NULL,
+                phonenumber varchar(10),
+                birthdate date NOT NULL,
+                nationality varchar(50) NOT NULL,
+                PRIMARY KEY (customer_id)
+            );''')  
         conn.commit()
         cur.close()
         conn.close()
     except Exception as e:
-        print("create education table ERROR : " , str(e))
-        return "create education table ERROR " + str(e)
+        print("create customer table ERROR : " , str(e))
+        return "create customer table ERROR : " + str(e)
     else:
-        print("Education Table created successfully.")
-        return "Education Table created successfully."
+        print("Customer Table created successfully.")
+        return "Customer Table created successfully."
 
 
-# Create student table
-def create_student_table():
+def create_restaurant_table():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute('''
-            CREATE TABLE IF NOT EXISTS student(
-                    student_id serial, 
-                    name VARCHAR(25) NOT NULL,
-                    nationality VARCHAR(25) NOT NULL,
-                    age integer NOT NULL,
-                    gender VARCHAR(25) NOT NULL,
-                    grade integer NOT NULL,
-                    education_id integer,
-                    PRIMARY KEY (student_id),
-                    FOREIGN KEY (education_id) REFERENCES education(education_id)
-            );''')
+            CREATE TABLE IF NOT EXISTS restaurant (
+                restaurant_id uuid NOT NULL,
+                restaurantname varchar(50) NOT NULL,
+                cuisinetype varchar(100) NOT NULL,
+                PRIMARY KEY (restaurant_id)
+            );''')  
         conn.commit()
         cur.close()
         conn.close()
     except Exception as e:
-        print("create student table ERROR : " , str(e))
-        return "create student table ERROR : " + str(e)
+        print("create restaurant table ERROR : " , str(e))
+        return "create restaurant table ERROR : " + str(e)
     else:
-        print("Student Table created successfully.")
-        return "Student Table created successfully."
+        print("Restaurant Table created successfully.")
+        return "Restaurant Table created successfully."
 
-# Initialize values for education table
-# Average earnings data from https://www.northeastern.edu/bachelors-completion/wp-content/uploads/2020/06/Annual_Earnings_Unemp_Rates_R2-1.png
-def init_education_table():
+
+def create_branch_table():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute('''
-            INSERT INTO education (degree, credits, duration, earnings)
-            VALUES ('High-School', 26, 4, 38792)
-            ''') 
-        cur.execute('''
-            INSERT INTO education (degree, credits, duration, earnings)
-            VALUES ('Bachelors', 120, 4, 64896)
-            ''') 
-        cur.execute('''
-            INSERT INTO education (degree, credits, duration, earnings)
-            VALUES ('Masters', 30, 2, 77844)
-            ''') 
-        cur.execute('''
-            INSERT INTO education (degree, credits, duration, earnings)
-            VALUES ('Doctorate', 90, 6, 97916)
-            ''') 
+            CREATE TABLE IF NOT EXISTS branch (
+                branch_id uuid NOT NULL,
+                branchname varchar(100) NOT NULL,
+                restaurant_id uuid NOT NULL,
+                location varchar(500) NOT NULL,
+                PRIMARY KEY (branch_id),
+                FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
+            );''')  
         conn.commit()
         cur.close()
         conn.close()
     except Exception as e:
-        print("initialized education table ERROR : " , str(e))
-        return "initialized education table ERROR : " + str(e)
+        print("create branch table ERROR : " , str(e))
+        return "create branch table ERROR : " + str(e)
     else:
-        print("Initialized education table successfully.")
-        return "Initialized education table successfully."
+        print("Branch Table created successfully.")
+        return "Branch Table created successfully."
 
 
+def create_order_table():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS myorder (
+                myorder_id uuid NOT NULL,
+                customer_id uuid NOT NULL,
+                tablenumber int NOT NULL,
+                ordertime timestamp NOT NULL,
+                ordercompleted bool NOT NULL,
+                PRIMARY KEY (myorder_id),
+                FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+            );''')  
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print("create order table ERROR : " , str(e))
+        return "create order table ERROR : " + str(e)
+    else:
+        print("Order Table created successfully.")
+        return "Order Table created successfully."
+
+
+def create_menuitem_table():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS menuitem (
+                menuitem_id uuid NOT NULL,
+                menucategory varchar(100) NOT NULL,
+                restaurant_id uuid NOT NULL,
+                menuitemname varchar(100) NOT NULL,
+                customizableinstr varchar(1000),
+                PRIMARY KEY (menuitem_id),
+                FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
+            );''')  
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print("create menu item table ERROR : " , str(e))
+        return "create menu item table ERROR : " + str(e)
+    else:
+        print("MenuItem Table created successfully.")
+        return "MenuItem Table created successfully."
+
+
+def create_orderitem_table():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS orderitem (
+                orderitem_id uuid NOT NULL,
+                myorder_id uuid NOT NULL,
+                menuitem_id uuid NOT NULL,
+                quantity int NOT NULL,
+                delivered bool NOT NULL,
+                customizabletext varchar(1000),
+                PRIMARY KEY (orderitem_id),
+                FOREIGN KEY (myorder_id) REFERENCES myorder(myorder_id),
+                FOREIGN KEY (menuitem_id) REFERENCES menuitem(menuitem_id)
+            );''')  
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print("create order item table ERROR : " , str(e))
+        return "create order item table ERROR : " + str(e)
+    else:
+        print("OrderItem Table created successfully.")
+        return "OrderItem Table created successfully."
+
+
+#####################
 ### Table Actions ###
+#####################
 
 # table is a string of table name
 def get_table(table):

@@ -1,13 +1,18 @@
 from __init__ import *
 from appController import *
 from authentication import *
+# temporary
+from service import *
 
 ### DISPLAY PAGE ###
 
 # Student Table
 @app.route('/')
 def display():
-    return displayController()
+    print(deleteRestaurant('restaurantname', 'Hachiban'))
+    print(getRestaurantAll())
+    return "worked"
+    # return displayController()
 
 # Education Table
 @app.route('/displayEducation')
