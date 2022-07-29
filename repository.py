@@ -4,10 +4,10 @@ import psycopg2
 
 def get_db_connection():
     conn = psycopg2.connect(
-            host= 'ec2-52-48-159-67.eu-west-1.compute.amazonaws.com',
-            database= 'd2ss77ji3l4e62',
-            user= 'douhviwgjxvzvv',
-            password= '49283b6a94bab265424d2d8ae0dd2227d15ca52e9097ce2edb58f30bc5bb4412',
+            host= 'ec2-34-252-216-149.eu-west-1.compute.amazonaws.com',
+            database= 'dd2b432ofna5kk',
+            user= 'knsfeqfqdhhygm',
+            password= 'c2634a15369c268a94d4c8d1cf7da0e01d9b9da2bfa6da4c4ffb2a6b9de1f09d',
             port= 5432,
             sslmode='require'
     )
@@ -24,7 +24,7 @@ def create_client_table():
         cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS client(
-                client_id serial, 
+                client_id uuid NOT NULL, 
                 name VARCHAR(50) NOT NULL,
                 email VARCHAR(50) UNIQUE NOT NULL,
                 password VARCHAR(50),
@@ -270,6 +270,7 @@ def insert_row(table, fields, values):
     # Connect to database and execute
     conn = get_db_connection()
     cur = conn.cursor()
+    print(order)
     cur.execute(order)
     conn.commit()
     cur.close()

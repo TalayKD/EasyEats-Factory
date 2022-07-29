@@ -3,8 +3,12 @@ from flask import session, redirect, render_template, request
 
 def initController():
     createClientTable()
-    createEducationTable()
-    createStudentTable()
+    createCustomerTable()
+    createRestaurantTable()
+    createBranchTable()
+    createOrderTable()
+    createMenuItemTable()
+    createOrderItemTable()
 
 ########################
 ### Page Controllers ###
@@ -18,15 +22,44 @@ def displayController():
         if not session.get('name'):
             return redirect('/loginpage')
 
-        data = getStudentAll()
-        ed = getEducationAll()
-        data.append(ed)
-        data.append(getClientName(session))
-        return render_template('displayAdmin.html', data=data)
+        restaurant = getRestaurantAll()
+        name = getClientName(session)
+        return render_template('displayAdmin.html', restaurant=restaurant, name=name)
 
     except Exception as e:
         print("display student ERROR : " , str(e))
         return "display student ERROR : " + str(e)
+
+def displayBranchController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        branch = getBranchAll()
+        restaurant = getRestaurantAll()
+        name = getClientName(session)
+        return render_template('displayBranch.html', branch=branch, restaurant=restaurant, name=name)
+
+    except Exception as e:
+        print("display education ERROR : " , str(e))
+        return "display education ERROR : " + str(e)
+
+def displayMenuItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        menuitem = getMenuItemAll()
+        restaurant = getRestaurantAll()
+        name = getClientName(session)
+        return render_template('displayBranch.html', menuitem=menuitem, restaurant=restaurant, name=name)
+
+    except Exception as e:
+        print("display education ERROR : " , str(e))
+        return "display education ERROR : " + str(e)
+
 
 def displayEducationController():
     try:

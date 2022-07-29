@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>iStudent | Education Records</title>
+  <title>EasyEats | Branch Records</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
+  
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -50,7 +55,7 @@
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
       <img src="{{ url_for('static', filename='dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">iStudent</span>
+      <span class="brand-text font-weight-light">EasyEats</span>
     </a>
 
     <!-- Sidebar -->
@@ -61,7 +66,7 @@
           <img src="{{ url_for('static', filename='dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"> {{ data[-1] }} </a>
+          <a href="#" class="d-block"> {{ name }} </a>
         </div>
       </div>
 
@@ -92,13 +97,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student Records Table</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/displayEducation" class="nav-link active">
+                <a href="/displayEducation" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Education Records Table</p>
                 </a>
@@ -152,7 +157,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Education Records Table</h1>
+            <h1>Branches Records Table</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -166,39 +171,55 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All Education Records</h3>
+                <div class="row">
 
-                <div class="card-tools">
-                    <div class="btn-group">
-                        <a href="/insertpageEducation" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
-                        <a href="/deleterecordEducation" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                    <div class="col-md-6">
+                        <select class="form-control select2" name="branchfilter" id="branchfilter" style="width: 70%;" onchange="filterTable()" tabindex="-1" aria-hidden="true" required>
+                            <option selected value="all"> All Branches Records </option>
+                            {% for res in restaurant %}
+                                <option value="{{ res[1] }}">{{ res[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6" align="right">
+                        <div class="card-tools">
+                            <div class="btn-group">
+                                <a href="/insertpage" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
+                                <a href="/deleterecord" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+              <div class="card-body">
+                <table id="branchtable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Degree</th>
-                      <th>No. of Credits</th>
-                      <th>Duration (in years)</th>
-                      <th>Earnings (in USD)</th>
+                      <th>Branch_ID</th>
+                      <th>Branch Name</th>
+                      <th>Restaurant</th>
+                      <th>Location</th>
                       <th>Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for degree in data[:-1] %}
+                    {% for bran in branch %}
                         <tr>
-                            <td>{{ degree[0] }}</td>
-                            <td>{{ degree[1] }}</td>
-                            <td>{{ degree[2] }}</td>
-                            <td>{{ degree[3] }}</td>
-                            <td>{{ degree[4] }}</td>
+                            <td>{{ bran[0] }}</td>
+                            <td>{{ bran[1] }}</td>
                             <td>
-                                <a href="/updatepageEducation?education_id={{degree[0]}}" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
-                                <a href="/deleterecordEducation?education_id={{degree[0]}}" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
+                                {% for res in restaurant %}
+                                    {% if res[0] == bran[2] %}
+                                        {{ res[1] }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ bran[3] }}</td>
+                            
+                            <td>
+                                <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
+                                <a href="" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -234,9 +255,66 @@
 <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="{{ url_for('static', filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#branchtable').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+<script>
+    function filterTable() {
+      var input, table, tr, td, i, txtValue;
+      input = document.getElementById("branchfilter").value;
+      table = document.getElementById("branchtable");
+      tr = table.getElementsByTagName("tr");
+      // everytime you start, you reset all the elements to show
+      for (i = 0; i < tr.length; i++) {
+        tr[i].style.display = "";    
+      }
+      if (input != "all"){
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+            txtValue = td.innerText;
+            if (txtValue === input) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+            }       
+        }
+    }
+    }
+</script>
 </body>
 </html>

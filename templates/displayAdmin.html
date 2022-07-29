@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>iStudent | Student Records</title>
+  <title>EasyEats | Restaurant Records</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
+  
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -50,7 +55,7 @@
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
       <img src="{{ url_for('static', filename='dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">iStudent</span>
+      <span class="brand-text font-weight-light">EasyEats</span>
     </a>
 
     <!-- Sidebar -->
@@ -61,7 +66,7 @@
           <img src="{{ url_for('static', filename='dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"> {{ data[-1] }} </a>
+          <a href="#" class="d-block"> {{ name }} </a>
         </div>
       </div>
 
@@ -152,7 +157,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Student Records Table</h1>
+            <h1>Restaurants Records Table</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -166,7 +171,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All Student Records</h3>
+                <h3 class="card-title">All Restaurants Records</h3>
 
                 <div class="card-tools">
                     <div class="btn-group">
@@ -176,39 +181,26 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+              <div class="card-body">
+                <table id="example2" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Nationality</th>
-                      <th>Age</th>
-                      <th>Gender</th>
-                      <th>Grade</th>
-                      <th>Academic Degree</th>
+                      <th>Restaurant_ID</th>
+                      <th>Restaurant Name</th>
+                      <th>Cuisine Type</th>
                       <th>Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for student in data[:-2] %}
+                    {% for res in restaurant %}
                         <tr>
-                            <td>{{ student[0] }}</td>
-                            <td>{{ student[1] }}</td>
-                            <td>{{ student[2] }}</td>
-                            <td>{{ student[3] }}</td>
-                            <td>{{ student[4] }}</td>
-                            <td>{{ student[5] }}</td>
+                            <td>{{ res[0] }}</td>
+                            <td>{{ res[1] }}</td>
+                            <td>{{ res[2] }}</td>
+                            
                             <td>
-                                {% for degree in data[-2] %}
-                                    {% if degree[0] == student[6] %}
-                                        {{ degree[1] }}
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                <a href="/updatepage?student_id={{student[0]}}" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
-                                <a href="/deleterecord?student_id={{student[0]}}" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
+                                <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
+                                <a href="" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -244,9 +236,41 @@
 <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="{{ url_for('static', filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </body>
 </html>

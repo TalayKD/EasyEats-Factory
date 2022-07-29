@@ -6,13 +6,21 @@ from service import *
 
 ### DISPLAY PAGE ###
 
-# Student Table
+# Restaurants Table
 @app.route('/')
 def display():
-    print(deleteRestaurant('restaurantname', 'Hachiban'))
-    print(getRestaurantAll())
-    return "worked"
-    # return displayController()
+    return displayController()
+
+# Branches Table
+@app.route('/displayBranch')
+def displayBranch():
+    return displayBranchController()
+
+# Menu Item Table
+@app.route('/displayMenuItem')
+def displayMenuItem():
+    return displayMenuItemController()
+
 
 # Education Table
 @app.route('/displayEducation')

@@ -1,4 +1,5 @@
 import repository
+import uuid
 
 from wtforms import Form, StringField, EmailField, PasswordField, validators
 from wtforms.validators import ValidationError
@@ -212,6 +213,8 @@ def insertClientRow(columns, values):
             return "One or more columns does not exist in Client Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['client_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("client", columns, values)
 
 def insertCustomerRow(columns, values):
@@ -220,6 +223,8 @@ def insertCustomerRow(columns, values):
             return "One or more columns does not exist in Customer Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['customer_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("customer", columns, values)
 
 def insertRestaurantRow(columns, values):
@@ -228,6 +233,8 @@ def insertRestaurantRow(columns, values):
             return "One or more columns does not exist in Restaurant Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['restaurant_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("restaurant", columns, values)
 
 def insertBranchRow(columns, values):
@@ -236,6 +243,8 @@ def insertBranchRow(columns, values):
             return "One or more columns does not exist in Branch Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['branch_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("branch", columns, values)
 
 def insertOrderRow(columns, values):
@@ -244,6 +253,8 @@ def insertOrderRow(columns, values):
             return "One or more columns does not exist in MyOrder Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['myorder_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("myorder", columns, values)
 
 def insertMenuItemRow(columns, values):
@@ -252,6 +263,8 @@ def insertMenuItemRow(columns, values):
             return "One or more columns does not exist in MenuItem Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['menuitem_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("menuitem", columns, values)
 
 def insertOrderItemRow(columns, values):
@@ -260,6 +273,8 @@ def insertOrderItemRow(columns, values):
             return "One or more columns does not exist in OrderItem Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
+    columns = ['orderitem_id'] + columns
+    values = [uuid.uuid4().hex] + values
     return repository.insert_row("orderitem", columns, values)
 
 
