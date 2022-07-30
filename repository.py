@@ -13,6 +13,17 @@ def get_db_connection():
     )
     return conn
 
+def close_db_connection():
+    cur.close()
+    conn.close()
+    print("Database connection closed! Safe to exit app")
+    return "Database connection closed! Safe to exit app"
+
+# Initialize connection and cursors
+
+conn = get_db_connection()
+cur = conn.cursor()
+
 #####################
 ### Create tables ###
 #####################
@@ -20,8 +31,6 @@ def get_db_connection():
 # Function to create user table
 def create_client_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS client(
                 client_id uuid NOT NULL, 
@@ -31,8 +40,6 @@ def create_client_table():
                 PRIMARY KEY (client_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create client table ERROR : " , str(e))
         return "create client table ERROR : " + str(e)
@@ -44,15 +51,11 @@ def create_client_table():
 # Initialize table with one client
 def init_client_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             INSERT INTO client (name, email, password)
             VALUES ('Talay Kondhorn', 'talaykd@gmail.com', 'helloworld')
             ''') 
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("initialized client table ERROR : " , str(e))
         return "initialized client table ERROR " + str(e)
@@ -63,8 +66,6 @@ def init_client_table():
 
 def create_customer_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS customer (
                 customer_id uuid NOT NULL,
@@ -78,8 +79,6 @@ def create_customer_table():
                 PRIMARY KEY (customer_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create customer table ERROR : " , str(e))
         return "create customer table ERROR : " + str(e)
@@ -90,8 +89,6 @@ def create_customer_table():
 
 def create_restaurant_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS restaurant (
                 restaurant_id uuid NOT NULL,
@@ -101,8 +98,6 @@ def create_restaurant_table():
                 PRIMARY KEY (restaurant_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create restaurant table ERROR : " , str(e))
         return "create restaurant table ERROR : " + str(e)
@@ -113,8 +108,6 @@ def create_restaurant_table():
 
 def create_branch_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS branch (
                 branch_id uuid NOT NULL,
@@ -126,8 +119,6 @@ def create_branch_table():
                 FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create branch table ERROR : " , str(e))
         return "create branch table ERROR : " + str(e)
@@ -138,8 +129,6 @@ def create_branch_table():
 
 def create_order_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS myorder (
                 myorder_id uuid NOT NULL,
@@ -154,8 +143,6 @@ def create_order_table():
                 FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create order table ERROR : " , str(e))
         return "create order table ERROR : " + str(e)
@@ -166,8 +153,6 @@ def create_order_table():
 
 def create_menuitem_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS menuitem (
                 menuitem_id uuid NOT NULL,
@@ -182,8 +167,6 @@ def create_menuitem_table():
                 FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create menu item table ERROR : " , str(e))
         return "create menu item table ERROR : " + str(e)
@@ -194,8 +177,6 @@ def create_menuitem_table():
 
 def create_orderitem_table():
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
         cur.execute('''
             CREATE TABLE IF NOT EXISTS orderitem (
                 orderitem_id uuid NOT NULL,
@@ -211,8 +192,6 @@ def create_orderitem_table():
                 FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
             );''')  
         conn.commit()
-        cur.close()
-        conn.close()
     except Exception as e:
         print("create order item table ERROR : " , str(e))
         return "create order item table ERROR : " + str(e)
@@ -228,23 +207,15 @@ def create_orderitem_table():
 # table is a string of table name
 def get_table(table):
     order = "SELECT * from " + str(table) + " ORDER BY " + str(table) + "_id ASC"
-    conn = get_db_connection()
-    cur = conn.cursor()
     cur.execute(order)
     data = cur.fetchall()
-    cur.close()
-    conn.close()
     return data
 
 # field is a string of field name
 def get_table_col(table, field):
     order = "SELECT " + str(field) + " FROM " + str(table)
-    conn = get_db_connection()
-    cur = conn.cursor()
     cur.execute(order)
     data = cur.fetchall()
-    cur.close()
-    conn.close()
     return data
 
 def get_table_row(table, col, value):
@@ -253,12 +224,8 @@ def get_table_row(table, col, value):
         order = order + "\'" + str(value) + "\'"
     else:
         order = order + str(value)
-    conn = get_db_connection()
-    cur = conn.cursor()
     cur.execute(order)
     data = cur.fetchall()
-    cur.close()
-    conn.close()
     return data
     
 
@@ -278,13 +245,8 @@ def insert_row(table, fields, values):
         order = order + ","
     order = order[:-1] + ")"
     # Connect to database and execute
-    conn = get_db_connection()
-    cur = conn.cursor()
-    print(order)
     cur.execute(order)
     conn.commit()
-    cur.close()
-    conn.close()
 
 # data is a dictionary that stores column : value pairs
 # update only at row with val if the arguments are given
@@ -304,12 +266,8 @@ def update_table(table, data, col=None, row=None):
         else:
             order = order + " WHERE " + str(col) + "=" + str(row)
     #connect to database
-    conn = get_db_connection()
-    cur = conn.cursor()
     cur.execute(order)
     conn.commit()
-    cur.close()
-    conn.close()
 
 # delete only at col with row (value in col) only if arguments are given
 # otherwise, delete all rows in the table
@@ -321,9 +279,5 @@ def delete_row(table, col=None, row=None):
         else:
             order = order + " WHERE " + str(col) + "=" + str(row) 
     #Delete data from database
-    conn = get_db_connection()
-    cur = conn.cursor()
     cur.execute(order)
     conn.commit()
-    cur.close()
-    conn.close()

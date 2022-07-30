@@ -8,6 +8,9 @@ from wtforms.validators import ValidationError
 ### Database Initialization Services ###
 ########################################
 
+def closeDB():
+    return repository.close_db_connection()
+
 clientCols = ["client_id", "name", "email", "password"]
 customerCols = ["customer_id", "firstname", "lastname", "gender", "email", "phonenumber", "birthdate", "nationality"]
 restaurantCols = ["restaurant_id", "restaurantname", "cuisinetype", "imageurl"]
