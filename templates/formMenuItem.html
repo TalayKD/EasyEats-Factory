@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Restaurant Update Form</title>
+  <title>EasyEats | MenuItem Insert Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -107,7 +107,7 @@
           </li>
           
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-edit"></i>
               <p>
                 Forms
@@ -116,7 +116,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/insertpage" class="nav-link">
+                <a href="/insertpage" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student Input Form</p>
                 </a>
@@ -145,6 +145,7 @@
     <!-- /.sidebar -->
   </aside>
 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -152,12 +153,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Restaurant Records Form</h1>
+            <h1>MenuItem Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Restaurant Update Form</li>
+              <li class="breadcrumb-item active">MenuItem Input Form</li>
             </ol>
           </div>
         </div>
@@ -171,31 +172,63 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- general form elements -->
-            <div class="card card-warning">
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Update Restaurant Record</h3>
+                <h3 class="card-title">Input MenuItem Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/updatedata?restaurant_id={{rest[0]}}" method="POST">
+              <form action="/insertdataMenuItem" method="POST">
                 <div class="card-body">
-                    <div class="form-group">
-                      <label for="restaurantname">Restaurant Name</label>
-                      <input type="text" class="form-control" name="restaurantname" id="restaurantname" value={{rest[1]}} placeholder="Enter restaurant name" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="cuisinetype">Cuisine Type</label>
-                      <input type="text" class="form-control" name="cuisinetype" id="cuisinetype" value={{rest[2]}} placeholder="Enter cuisine type" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="imageurl">Image URL</label>
-                      <input type="text" class="form-control" name="imageurl" id="imageurl" value={{rest[3]}} placeholder="Enter image url" required>
-                    </div>
+                  <div class="form-group">
+                    <label for="menucategory">Menu Category</label>
+                    <select class="form-control select2 select2-hidden-accessible" name="menucategory" id="menucategory" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                        <option disabled selected value> -- select a menu category -- </option>
+                        <option value="Appetizers">Appetizers</option>
+                        <option value="Main Dish">Main Dish</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Drinks">Drinks</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="restaurant_id">Restaurant</label>
+                    <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                        <option disabled selected value> -- select a restaurant -- </option>
+                        {% for rest in restaurant %}
+                            <option value="{{ rest[0] }}">{{ rest[1] }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="menuitemname">Menu Name</label>
+                    <input type="text" class="form-control" name="menuitemname" id="menuitemname" placeholder="Enter Menu Name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="customizableinstr">Cust. Instr.</label>
+                    <input type="text" class="form-control" name="customizableinstr" id="customizableinstr" placeholder="Enter customizable instructions">
+                  </div>
+                  <div class="form-group">
+                    <label for="imageurl">Image URL</label>
+                    <input type="text" class="form-control" name="imageurl" id="imageurl" placeholder="Enter Image URL" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="available">Available</label>
+                    <select class="form-control select2 select2-hidden-accessible" name="available" id="available" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                        <option disabled selected value> -- select availability -- </option>
+                            <option value="True">{{ True }}</option>
+                            <option value="False">{{ False }}</option>
+                    </select>
+                  </div>
+                  
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-warning">Submit</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>

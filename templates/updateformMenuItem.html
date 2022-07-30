@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Restaurant Update Form</title>
+  <title>EasyEats | MenuItem Update Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -152,12 +152,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Restaurant Records Form</h1>
+            <h1>MenuItem Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Restaurant Update Form</li>
+              <li class="breadcrumb-item active">MenuItem Update Form</li>
             </ol>
           </div>
         </div>
@@ -173,24 +173,87 @@
             <!-- general form elements -->
             <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Update Restaurant Record</h3>
+                <h3 class="card-title">Update MenuItem Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/updatedata?restaurant_id={{rest[0]}}" method="POST">
+              <form action="/updatedataMenuItem?menuitem_id={{item[0]}}" method="POST">
                 <div class="card-body">
-                    <div class="form-group">
-                      <label for="restaurantname">Restaurant Name</label>
-                      <input type="text" class="form-control" name="restaurantname" id="restaurantname" value={{rest[1]}} placeholder="Enter restaurant name" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="cuisinetype">Cuisine Type</label>
-                      <input type="text" class="form-control" name="cuisinetype" id="cuisinetype" value={{rest[2]}} placeholder="Enter cuisine type" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="imageurl">Image URL</label>
-                      <input type="text" class="form-control" name="imageurl" id="imageurl" value={{rest[3]}} placeholder="Enter image url" required>
-                    </div>
+
+                      <div class="form-group">
+                        <label for="menucategory">Menu Category</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="menucategory" id="menucategory" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            {% if item[1] == "Appetizers" %}
+                                <option selected="selected" value="Appetizers">Appetizers</option>
+                                <option value="Main Dish">Main Dish</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Drinks">Drinks</option>
+                            {% elif item[1] == "Main Dish" %}
+                                <option value="Appetizers">Appetizers</option>
+                                <option selected="selected" value="Main Dish">Main Dish</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Drinks">Drinks</option>
+                            {% elif item[1] == "Dessert" %}
+                                <option value="Appetizers">Appetizers</option>
+                                <option value="Main Dish">Main Dish</option>
+                                <option selected="selected" value="Dessert">Dessert</option>
+                                <option value="Drinks">Drinks</option>
+                            {% elif item[1] == "Drinks" %}
+                                <option value="Appetizers">Appetizers</option>
+                                <option value="Main Dish">Main Dish</option>
+                                <option value="Dessert">Dessert</option>
+                                <option selected="selected" value="Drinks">Drinks</option>
+                            {% else %}
+                                <option disabled selected value> -- select a menu category -- </option>
+                                <option value="Appetizers">Appetizers</option>
+                                <option value="Main Dish">Main Dish</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Drinks">Drinks</option>
+                            {% endif %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="restaurant_id">Restaurant</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled selected value> -- select a restaurant -- </option>
+                                {% for rest in restaurant %}
+                                    {% if rest[0] == item[2] %}
+                                        <option selected="selected" value="{{ rest[0] }}">{{ rest[1] }}</option>
+                                    {% else %}
+                                        <option value="{{ rest[0] }}">{{ rest[1] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="menuitemname">Menu Name</label>
+                        <input type="text" class="form-control" name="menuitemname" id="menuitemname" value={{item[3]}} placeholder="Enter Menu Name" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="customizableinstr">Cust. Instr.</label>
+                        <input type="text" class="form-control" name="customizableinstr" id="customizableinstr" value={{item[4]}} placeholder="Enter customizable instructions">
+                      </div>
+                      <div class="form-group">
+                        <label for="imageurl">Image URL</label>
+                        <input type="text" class="form-control" name="imageurl" id="imageurl" value={{item[5]}} placeholder="Enter Image URL" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="description" id="description" value={{item[6]}} placeholder="Enter Description" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="available">Available</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="available" id="available" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            
+                            {% if item[7] == True %}
+                                <option selected="selected" value="True">{{ True }}</option>
+                                <option value="False">{{ False }}</option>
+                            {% else %}
+                                <option value=True>{{ True }}</option>
+                                <option selected="selected" value="False">{{ False }}</option>
+                            {% endif %}
+                        </select>
+                      </div>
                 </div>
                 <!-- /.card-body -->
 

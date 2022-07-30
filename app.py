@@ -37,18 +37,22 @@ def displayOrderItem():
     return displayOrderItemController()
 
 
-# Education Table
-@app.route('/displayEducation')
-def displayEducation():
-    return displayEducationController()
-
-
 ### INSERT FORM PAGE ###
 
-# Student
+# Restaurant
 @app.route('/insertpage')
 def insertpage():
     return insertpageController()
+
+# Branch
+@app.route('/insertpageBranch')
+def insertpageBranch():
+    return insertpageBranchController()
+
+# MenuItem
+@app.route('/insertpageMenuItem')
+def insertpageMenuItem():
+    return insertpageMenuItemController()
 
 # Education
 @app.route('/insertpageEducation')
@@ -58,10 +62,20 @@ def insertpageEducation():
 
 ### UPDATE FORM PAGE ###
 
-# Student
+# Restaurant
 @app.route('/updatepage')
 def updatepage():
     return updatepageController()
+
+# Branch
+@app.route('/updatepageBranch')
+def updatepageBranch():
+    return updatepageBranchController()
+
+# MenuItem
+@app.route('/updatepageMenuItem')
+def updatepageMenuItem():
+    return updatepageMenuItemController()
 
 # Education
 @app.route('/updatepageEducation')
@@ -73,10 +87,20 @@ def updatepageEducation():
 
 ### INSERT DATA ###
 
-# Student
+# Restaurant
 @app.route('/insertdata', methods=['GET', 'POST'])
 def insertdata():
     return insertdataController()
+
+# Branch
+@app.route('/insertdataBranch', methods=['GET', 'POST'])
+def insertdataBranch():
+    return insertdataBranchController()
+
+# MenuItem
+@app.route('/insertdataMenuItem', methods=['GET', 'POST'])
+def insertdataMenuItem():
+    return insertdataMenuItemController()
 
 # Education
 @app.route('/insertdataEducation', methods=['GET', 'POST'])
@@ -86,10 +110,22 @@ def insertdataEducation():
 
 ### UPDATE DATA ###
 
-# Student
+# Restaurant
 @app.route('/updatedata', methods=['GET', 'POST', 'PUT'])
 def updatedata():
     return updatedataController()
+
+
+# Branch
+@app.route('/updatedataBranch', methods=['GET', 'POST', 'PUT'])
+def updatedataBranch():
+    return updatedataBranchController()
+
+# MenuItem
+@app.route('/updatedataMenuItem', methods=['GET', 'POST', 'PUT'])
+def updatedataMenuItem():
+    return updatedataMenuItemController()
+
 
 # Education
 @app.route('/updatedataEducation', methods=['GET', 'POST', 'PUT'])
@@ -99,10 +135,20 @@ def updatedataEducation():
 
 ### DELETE RECORD ###
 
-# Student
+# Restaurant
 @app.route('/deleterecord', methods = ['GET','POST','DELETE'])
 def deleterecord():
     return deleterecordController()
+
+# Branch
+@app.route('/deleterecordBranch', methods = ['GET','POST','DELETE'])
+def deleterecordBranch():
+    return deleterecordBranchController()
+
+# MenuItem
+@app.route('/deleterecordMenuItem', methods = ['GET','POST','DELETE'])
+def deleterecordMenuItem():
+    return deleterecordMenuItemController()
 
 # Education
 @app.route('/deleterecordEducation', methods = ['GET','POST','DELETE'])

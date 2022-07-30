@@ -10,11 +10,11 @@ from wtforms.validators import ValidationError
 
 clientCols = ["client_id", "name", "email", "password"]
 customerCols = ["customer_id", "firstname", "lastname", "gender", "email", "phonenumber", "birthdate", "nationality"]
-restaurantCols = ["restaurant_id", "restaurantname", "cuisinetype"]
-branchCols = ["branch_id", "branchname", "restaurant_id", "location"]
-myorderCols = ["myorder_id", "customer_id", "tablenumber", "ordertime", "ordercompleted"]
-menuitemCols = ["menuitem_id", "menucategory", "restaurant_id", "menuitemname", "customizableinstr"]
-orderitemCols = ["orderitem_id", "myorder_id", "menuitem_id", "quantity", "delivered", "customizabletext"]
+restaurantCols = ["restaurant_id", "restaurantname", "cuisinetype", "imageurl"]
+branchCols = ["branch_id", "branchname", "restaurant_id", "location", "numtable"]
+myorderCols = ["myorder_id", "ordername", "customer_id", "branch_id", "tablenumber", "ordertime", "ordercompleted"]
+menuitemCols = ["menuitem_id", "menucategory", "restaurant_id", "menuitemname", "customizableinstr", "imageurl", "description", "available"]
+orderitemCols = ["orderitem_id", "myorder_id", "branch_id", "menuitem_id", "quantity", "delivered", "customizabletext"]
 
 def createClientTable():
     return repository.create_client_table()
@@ -230,11 +230,14 @@ def insertCustomerRow(columns, values):
 def insertRestaurantRow(columns, values):
     for col in columns:
         if (col not in restaurantCols):
+            print("One or more columns does not exist in Restaurant Table")
             return "One or more columns does not exist in Restaurant Table"
     if (len(columns) != len(values)):
+        print("Columns and values don't match")
         return "Columns and values don't match"
     columns = ['restaurant_id'] + columns
     values = [uuid.uuid4().hex] + values
+    print("Restaurant inserted")
     return repository.insert_row("restaurant", columns, values)
 
 def insertBranchRow(columns, values):
@@ -344,6 +347,7 @@ def updateRestaurant(data, col=None, row=None):
     else:
         if (row != None):
             return "Row given but col is not specified"
+    print("got to actual update")
     return repository.update_table("restaurant", data, col, row)
 
 

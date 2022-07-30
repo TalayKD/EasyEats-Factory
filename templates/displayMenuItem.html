@@ -184,8 +184,8 @@
                     <div class="col-md-6" align="right">
                         <div class="card-tools">
                             <div class="btn-group">
-                                <a href="/insertpage" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
-                                <a href="/deleterecord" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                                <a href="/insertpageMenuItem" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
+                                <a href="/deleterecordMenuItem" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
                             </div>
                         </div>
                     </div>
@@ -203,6 +203,7 @@
                       <th>Custom. Instr.</th>
                       <th>Image URL</th>
                       <th>Desc.</th>
+                      <th>Available</th>
                       <th>Options</th>
                     </tr>
                   </thead>
@@ -222,10 +223,11 @@
                             <td>{{ item[4] }}</td>
                             <td>{{ item[5] }}</td>
                             <td>{{ item[6] }}</td>
+                            <td>{{ item[7] }}</td>
                             
                             <td>
-                                <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
-                                <a href="" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
+                                <a href="/updatepageMenuItem?menuitem_id={{item[0]}}" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
+                                <a href="/deleterecordMenuItem?menuitem_id={{item[0]}}" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
                             </td>
                         </tr>
                     {% endfor %}

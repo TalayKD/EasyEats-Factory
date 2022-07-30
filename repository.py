@@ -121,6 +121,7 @@ def create_branch_table():
                 branchname varchar(100) NOT NULL,
                 restaurant_id uuid NOT NULL,
                 location varchar(500) NOT NULL,
+                numtable int NOT NULL,
                 PRIMARY KEY (branch_id),
                 FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
             );''')  

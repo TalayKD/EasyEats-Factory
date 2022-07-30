@@ -184,8 +184,8 @@
                     <div class="col-md-6" align="right">
                         <div class="card-tools">
                             <div class="btn-group">
-                                <a href="/insertpage" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
-                                <a href="/deleterecord" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                                <a href="/insertpageBranch" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
+                                <a href="/deleterecordBranch" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
                             </div>
                         </div>
                     </div>
@@ -200,6 +200,7 @@
                       <th>Branch Name</th>
                       <th>Restaurant</th>
                       <th>Location</th>
+                      <th>No. of Tables</th>
                       <th>Options</th>
                     </tr>
                   </thead>
@@ -216,10 +217,11 @@
                                 {% endfor %}
                             </td>
                             <td>{{ bran[3] }}</td>
+                            <td>{{ bran[4] }}</td>
                             
                             <td>
-                                <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
-                                <a href="" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
+                                <a href="/updatepageBranch?branch_id={{bran[0]}}" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
+                                <a href="/deleterecordBranch?branch_id={{bran[0]}}" class="btn btn-block btn-danger" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/x.svg') }}"> Delete Record</a>
                             </td>
                         </tr>
                     {% endfor %}

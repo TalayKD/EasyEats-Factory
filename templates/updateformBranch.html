@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Restaurant Update Form</title>
+  <title>EasyEats | Branch Update Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -152,12 +152,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Restaurant Records Form</h1>
+            <h1>Branch Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Restaurant Update Form</li>
+              <li class="breadcrumb-item active">Branch Update Form</li>
             </ol>
           </div>
         </div>
@@ -173,23 +173,36 @@
             <!-- general form elements -->
             <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Update Restaurant Record</h3>
+                <h3 class="card-title">Update Branch Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/updatedata?restaurant_id={{rest[0]}}" method="POST">
+              <form action="/updatedataBranch?branch_id={{bran[0]}}" method="POST">
                 <div class="card-body">
+                    
                     <div class="form-group">
-                      <label for="restaurantname">Restaurant Name</label>
-                      <input type="text" class="form-control" name="restaurantname" id="restaurantname" value={{rest[1]}} placeholder="Enter restaurant name" required>
+                        <label for="branchname">Branch Name</label>
+                        <input type="text" class="form-control" name="branchname" value={{bran[1]}} id="branchname" placeholder="Enter branch name" required>
                     </div>
                     <div class="form-group">
-                      <label for="cuisinetype">Cuisine Type</label>
-                      <input type="text" class="form-control" name="cuisinetype" id="cuisinetype" value={{rest[2]}} placeholder="Enter cuisine type" required>
+                        <label for="restaurant_id">Restaurant</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            {% for rest in restaurant %}
+                                {% if rest[0] == bran[2] %}
+                                    <option selected="selected" value="{{ rest[0] }}">{{ rest[1] }}</option>
+                                {% else %}
+                                    <option value="{{ rest[0] }}">{{ rest[1] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
-                      <label for="imageurl">Image URL</label>
-                      <input type="text" class="form-control" name="imageurl" id="imageurl" value={{rest[3]}} placeholder="Enter image url" required>
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control" name="location" id="location" value={{bran[3]}} placeholder="Enter location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numtable">No. of Tables</label>
+                        <input type="number" class="form-control" name="numtable" id="numtable" value={{bran[4]}} placeholder="Enter number of tables" min="0" max="500" required>
                     </div>
                 </div>
                 <!-- /.card-body -->
