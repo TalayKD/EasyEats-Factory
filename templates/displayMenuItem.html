@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Restaurant Records</title>
+  <title>EasyEats | Menu Item Records</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -157,7 +157,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Restaurants Records Table</h1>
+            <h1>Menu Item Records Table</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -171,32 +171,57 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All Restaurants Records</h3>
+                <div class="row">
 
-                <div class="card-tools">
-                    <div class="btn-group">
-                        <a href="/insertpage" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
-                        <a href="/deleterecord" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                    <div class="col-md-6">
+                        <select class="form-control select2" name="menuitemfilter" id="menuitemfilter" style="width: 70%;" onchange="filterTable()" tabindex="-1" aria-hidden="true" required>
+                            <option selected value="all"> All Menu Item Records </option>
+                            {% for res in restaurant %}
+                                <option value="{{ res[1] }}">{{ res[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6" align="right">
+                        <div class="card-tools">
+                            <div class="btn-group">
+                                <a href="/insertpage" class="btn btn-default" role="button" name="insertbutton"><img src="{{ url_for('static', filename='/open-iconic/svg/folder.svg') }}">  Insert New Record</a>
+                                <a href="/deleterecord" class="btn btn-default" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/trash.svg') }}">  Clear All Records</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example2" class="table table-bordered table-striped">
+                <table id="menuitemtable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Restaurant_ID</th>
-                      <th>Restaurant Name</th>
-                      <th>Cuisine Type</th>
+                      <th>MenuItem_ID</th>
+                      <th>Menu Category</th>
+                      <th>Restaurant</th>
+                      <th>Menu Name</th>
+                      <th>Custom. Instr.</th>
+                      <th>Image URL</th>
+                      <th>Desc.</th>
                       <th>Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for res in restaurant %}
+                    {% for item in menuitem %}
                         <tr>
-                            <td>{{ res[0] }}</td>
-                            <td>{{ res[1] }}</td>
-                            <td>{{ res[2] }}</td>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>
+                                {% for res in restaurant %}
+                                    {% if res[0] == item[2] %}
+                                        {{ res[1] }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ item[3] }}</td>
+                            <td>{{ item[4] }}</td>
+                            <td>{{ item[5] }}</td>
+                            <td>{{ item[6] }}</td>
                             
                             <td>
                                 <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>
@@ -261,7 +286,7 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
+    $('#menuitemtable').DataTable({
       "paging": false,
       "lengthChange": false,
       "searching": false,
@@ -271,6 +296,31 @@
       "responsive": true,
     });
   });
+</script>
+<script>
+    function filterTable() {
+      var input, table, tr, td, i, txtValue;
+      input = document.getElementById("menuitemfilter").value;
+      table = document.getElementById("menuitemtable");
+      tr = table.getElementsByTagName("tr");
+      // everytime you start, you reset all the elements to show
+      for (i = 0; i < tr.length; i++) {
+        tr[i].style.display = "";    
+      }
+      if (input != "all"){
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+            txtValue = td.innerText;
+            if (txtValue === input) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+            }       
+        }
+    }
+    }
 </script>
 </body>
 </html>

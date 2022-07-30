@@ -97,6 +97,7 @@ def create_restaurant_table():
                 restaurant_id uuid NOT NULL,
                 restaurantname varchar(50) NOT NULL,
                 cuisinetype varchar(100) NOT NULL,
+                imageurl varchar(1000) NOT NULL,
                 PRIMARY KEY (restaurant_id)
             );''')  
         conn.commit()
@@ -141,12 +142,15 @@ def create_order_table():
         cur.execute('''
             CREATE TABLE IF NOT EXISTS myorder (
                 myorder_id uuid NOT NULL,
+                ordername varchar(100) NOT NULL,
                 customer_id uuid NOT NULL,
+                branch_id uuid NOT NULL,
                 tablenumber int NOT NULL,
                 ordertime timestamp NOT NULL,
                 ordercompleted bool NOT NULL,
                 PRIMARY KEY (myorder_id),
-                FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+                FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+                FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
             );''')  
         conn.commit()
         cur.close()
@@ -170,6 +174,9 @@ def create_menuitem_table():
                 restaurant_id uuid NOT NULL,
                 menuitemname varchar(100) NOT NULL,
                 customizableinstr varchar(1000),
+                imageurl varchar(1000) NOT NULL,
+                description varchar(1000),
+                available boolean NOT NULL,
                 PRIMARY KEY (menuitem_id),
                 FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
             );''')  
@@ -192,13 +199,15 @@ def create_orderitem_table():
             CREATE TABLE IF NOT EXISTS orderitem (
                 orderitem_id uuid NOT NULL,
                 myorder_id uuid NOT NULL,
+                branch_id uuid NOT NULL,
                 menuitem_id uuid NOT NULL,
                 quantity int NOT NULL,
                 delivered bool NOT NULL,
                 customizabletext varchar(1000),
                 PRIMARY KEY (orderitem_id),
                 FOREIGN KEY (myorder_id) REFERENCES myorder(myorder_id),
-                FOREIGN KEY (menuitem_id) REFERENCES menuitem(menuitem_id)
+                FOREIGN KEY (menuitem_id) REFERENCES menuitem(menuitem_id),
+                FOREIGN KEY (branch_id) REFERENCES branch(branch_id)
             );''')  
         conn.commit()
         cur.close()

@@ -42,8 +42,8 @@ def displayBranchController():
         return render_template('displayBranch.html', branch=branch, restaurant=restaurant, name=name)
 
     except Exception as e:
-        print("display education ERROR : " , str(e))
-        return "display education ERROR : " + str(e)
+        print("display Branch ERROR : " , str(e))
+        return "display Branch ERROR : " + str(e)
 
 def displayMenuItemController():
     try:
@@ -54,11 +54,58 @@ def displayMenuItemController():
         menuitem = getMenuItemAll()
         restaurant = getRestaurantAll()
         name = getClientName(session)
-        return render_template('displayBranch.html', menuitem=menuitem, restaurant=restaurant, name=name)
+        return render_template('displayMenuItem.html', menuitem=menuitem, restaurant=restaurant, name=name)
 
     except Exception as e:
-        print("display education ERROR : " , str(e))
-        return "display education ERROR : " + str(e)
+        print("display MenuItem ERROR : " , str(e))
+        return "display MenuItem ERROR : " + str(e)
+
+def displayCustomerController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        customer = getCustomerAll()
+        name = getClientName(session)
+        return render_template('displayCustomer.html', customer=customer, name=name)
+
+    except Exception as e:
+        print("display customer ERROR : " , str(e))
+        return "display customer ERROR : " + str(e)
+
+def displayOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        customer = getCustomerAll()
+        order = getOrderAll()
+        branch = getBranchAll()
+        name = getClientName(session)
+        return render_template('displayOrder.html', customer=customer, order=order, branch=branch, name=name)
+
+    except Exception as e:
+        print("display order ERROR : " , str(e))
+        return "display order ERROR : " + str(e)
+
+def displayOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        orderitem = getOrderItemAll()
+        order = getOrderAll()
+        menuitem = getMenuItemAll()
+        branch = getBranchAll()
+        name = getClientName(session)
+        return render_template('displayOrderItem.html', orderitem=orderitem, branch=branch, order=order, menuitem=menuitem, name=name)
+
+    except Exception as e:
+        print("display order item ERROR : " , str(e))
+        return "display order item ERROR : " + str(e)
 
 
 def displayEducationController():

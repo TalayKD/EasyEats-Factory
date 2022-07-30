@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Restaurant Records</title>
+  <title>EasyEats | Customer Records</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -157,7 +157,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Restaurants Records Table</h1>
+            <h1>Customer Records Table</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -171,7 +171,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All Restaurants Records</h3>
+                <h3 class="card-title">All Customer Records</h3>
 
                 <div class="card-tools">
                     <div class="btn-group">
@@ -185,18 +185,28 @@
                 <table id="example2" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Restaurant_ID</th>
-                      <th>Restaurant Name</th>
-                      <th>Cuisine Type</th>
+                      <th>Customer_ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Gender</th>
+                      <th>Email</th>
+                      <th>Phone No.</th>
+                      <th>Birthdate</th>
+                      <th>Nationality</th>
                       <th>Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for res in restaurant %}
+                    {% for cust in customer %}
                         <tr>
-                            <td>{{ res[0] }}</td>
-                            <td>{{ res[1] }}</td>
-                            <td>{{ res[2] }}</td>
+                            <td>{{ cust[0] }}</td>
+                            <td>{{ cust[1] }}</td>
+                            <td>{{ cust[2] }}</td>
+                            <td>{{ cust[3] }}</td>
+                            <td>{{ cust[4] }}</td>
+                            <td>{{ cust[5] }}</td>
+                            <td>{{ cust[6] }}</td>
+                            <td>{{ cust[7] }}</td>
                             
                             <td>
                                 <a href="" class="btn btn-block btn-warning" role="button"><img src="{{ url_for('static', filename='/open-iconic/svg/pencil.svg') }}"> Edit Record</a>

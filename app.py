@@ -21,6 +21,21 @@ def displayBranch():
 def displayMenuItem():
     return displayMenuItemController()
 
+# Customer Table
+@app.route('/displayCustomer')
+def displayCustomer():
+    return displayCustomerController()
+
+# Order Table
+@app.route('/displayOrder')
+def displayOrder():
+    return displayOrderController()
+
+# OrderItems Table
+@app.route('/displayOrderItem')
+def displayOrderItem():
+    return displayOrderItemController()
+
 
 # Education Table
 @app.route('/displayEducation')
