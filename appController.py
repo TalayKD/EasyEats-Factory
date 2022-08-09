@@ -152,19 +152,53 @@ def insertpageMenuItemController():
         print("menuitem form ERROR : " , str(e)) 
         return "menuitem form ERROR : " + str(e)
 
-def insertpageEducationController():
+def insertpageCustomerController():
     try:
         # Logs user out if not logged in
         if not session.get('name'):
             return redirect('/loginpage')
 
-        data = []
-        data.append(getClientName(session))
-        return render_template('formEd.html', data=data)
+        customer = getCustomerAll()
+        name = getClientName(session)
+        return render_template('formCustomer.html', customer=customer, name=name)
 
     except Exception as e:
-        print("education form ERROR : " , str(e))
-        return "education form ERROR : " + str(e)
+        print("customer form ERROR : " , str(e)) 
+        return "customer form ERROR : " + str(e)
+
+
+def insertpageOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        customer = getCustomerAll()
+        branch = getBranchAll()
+        name = getClientName(session)
+        return render_template('formOrder.html', customer=customer, branch=branch, name=name)
+
+    except Exception as e:
+        print("order form ERROR : " , str(e)) 
+        return "order form ERROR : " + str(e)
+
+def insertpageOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        orderitem = getOrderItemAll()
+        order = getOrderAll()
+        branch = getBranchAll()
+        menuitem = getMenuItemAll()
+        name = getClientName(session)
+        return render_template('formOrderItem.html', orderitem=orderitem, order=order, branch=branch, menuitem=menuitem, name=name)
+
+    except Exception as e:
+        print("orderitem form ERROR : " , str(e)) 
+        return "orderitem form ERROR : " + str(e)
+
 
 ### Update Form Pages ###
 
@@ -211,7 +245,6 @@ def updatepageMenuItemController():
         # Connect to database
         restaurant = getRestaurantAll()
         item = getMenuItemRow("menuitem_id", request.args.get("menuitem_id"))[0]
-        print(item)
         name = getClientName(session)
         return render_template('updateformMenuItem.html', restaurant=restaurant, item=item, name=name)
 
@@ -219,22 +252,58 @@ def updatepageMenuItemController():
         print("menuitem update page ERROR : " , str(e)) 
         return "menuitem update page ERROR : " + str(e)
 
-
-def updatepageEducationController():
+def updatepageCustomerController():
     try:
         # Logs user out if not logged in
         if not session.get('name'):
-            return redirect('/loginpage')
+            return redirect('/loginpage')    
 
-        education = getEducationRow("education_id", request.args.get("education_id"))
-        data = []
-        data.append(education[0])
-        data.append(getClientName(session))
-        return render_template('updateformEd.html', data=data)
+        # Connect to database
+        cust = getCustomerRow("customer_id", request.args.get("customer_id"))[0]
+        name = getClientName(session)
+        return render_template('updateformCustomer.html', cust=cust, name=name)
 
     except Exception as e:
-        print("education update page ERROR : " , str(e)) 
-        return "education update page ERROR : " + str(e)
+        print("customer update page ERROR : " , str(e)) 
+        return "customer update page ERROR : " + str(e)
+
+def updatepageOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')    
+
+        # Connect to database
+        ord = getOrderRow("myorder_id", request.args.get("myorder_id"))[0]
+        customer = getCustomerAll()
+        branch = getBranchAll()
+        name = getClientName(session)
+        return render_template('updateformOrder.html', ord=ord, customer=customer, branch=branch, name=name)
+
+    except Exception as e:
+        print("order update page ERROR : " , str(e)) 
+        return "order update page ERROR : " + str(e)
+
+
+def updatepageOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')    
+
+        # Connect to database
+        orditem = getOrderItemRow("orderitem_id", request.args.get("orderitem_id"))[0]
+        order = getOrderAll()
+        branch = getBranchAll()
+        menuitem = getMenuItemAll()
+        name = getClientName(session)
+        return render_template('updateformOrderItem.html', orditem=orditem, order=order, branch=branch, menuitem=menuitem, name=name)
+
+    except Exception as e:
+        print("orderitem update page ERROR : " , str(e)) 
+        return "orderitem update page ERROR : " + str(e)
+
+
 
 ##########################
 ### Action Controllers ###
@@ -277,7 +346,6 @@ def insertdataMenuItemController():
             return redirect('/loginpage')
 
         data = request.form
-        print(data)
         insertMenuItemRow(list(data.keys()), list(data.values()))
         return redirect("/displayMenuItem")
 
@@ -285,19 +353,50 @@ def insertdataMenuItemController():
         print("insert menuitem ERROR : " , str(e))
         return "insert menuitem ERROR : " + str(e)
 
-def insertdataEducationController():
+
+def insertdataCustomerController():
     try:
         # Logs user out if not logged in
         if not session.get('name'):
             return redirect('/loginpage')
 
         data = request.form
-        insertEducationRow(list(data.keys()), list(data.values()))
-        return redirect("/displayEducation")
+        insertCustomerRow(list(data.keys()), list(data.values()))
+        return redirect("/displayCustomer")
 
     except Exception as e:
-        print("insert education ERROR : " , str(e))
-        return "insert education ERROR : " + str(e)
+        print("insert customer ERROR : " , str(e))
+        return "insert customer ERROR : " + str(e)
+
+def insertdataOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        data = request.form
+        insertOrderRow(list(data.keys()), list(data.values()))
+        return redirect("/displayOrder")
+
+    except Exception as e:
+        print("insert order ERROR : " , str(e))
+        return "insert order ERROR : " + str(e)
+
+def insertdataOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        data = request.form
+        insertOrderItemRow(list(data.keys()), list(data.values()))
+        return redirect("/displayOrderItem")
+
+    except Exception as e:
+        print("insert orderitem ERROR : " , str(e))
+        return "insert orderitem ERROR : " + str(e)
+
+
 
 ### Update Data ###
 
@@ -308,7 +407,6 @@ def updatedataController():
             return redirect('/loginpage')
 
         data = request.form
-        print(data)
         arguments = request.args
         if ('restaurant_id' in arguments):
             updateRestaurant(data, "restaurant_id", arguments.get('restaurant_id'))
@@ -328,7 +426,6 @@ def updatedataBranchController():
             return redirect('/loginpage')
 
         data = request.form
-        print(data)
         arguments = request.args
         if ('branch_id' in arguments):
             updateBranch(data, "branch_id", arguments.get('branch_id'))
@@ -347,7 +444,6 @@ def updatedataMenuItemController():
             return redirect('/loginpage')
 
         data = request.form
-        print(data)
         arguments = request.args
         if ('menuitem_id' in arguments):
             updateMenuItem(data, "menuitem_id", arguments.get('menuitem_id'))
@@ -360,7 +456,7 @@ def updatedataMenuItemController():
         return "update menuitem ERROR : " + str(e)
 
 
-def updatedataEducationController():
+def updatedataCustomerController():
     try:
         # Logs user out if not logged in
         if not session.get('name'):
@@ -368,15 +464,53 @@ def updatedataEducationController():
 
         data = request.form
         arguments = request.args
-        if ('education_id' in arguments):
-            updateEducation(data, "education_id", arguments.get('education_id'))
+        if ('customer_id' in arguments):
+            updateCustomer(data, "customer_id", arguments.get('customer_id'))
         else:
-            updateEducation(data)
-        return redirect("/displayEducation")
+            updateCustomer(data)
+        return redirect("/displayCustomer")
 
     except Exception as e:
-        print("update education ERROR : " , str(e))
-        return "update education ERROR : " + str(e)
+        print("update customer ERROR : " , str(e))
+        return "update customer ERROR : " + str(e)
+
+
+def updatedataOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        data = request.form.to_dict()
+        arguments = request.args
+        if ('myorder_id' in arguments):
+            updateOrder(data, "myorder_id", arguments.get('myorder_id'))
+        else:
+            updateOrder(data)
+        return redirect("/displayOrder")
+
+    except Exception as e:
+        print("update order ERROR : " , str(e))
+        return "update order ERROR : " + str(e)
+
+
+def updatedataOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        data = request.form.to_dict()
+        arguments = request.args
+        if ('orderitem_id' in arguments):
+            updateOrderItem(data, "orderitem_id", arguments.get('orderitem_id'))
+        else:
+            updateOrderItem(data)
+        return redirect("/displayOrderItem")
+
+    except Exception as e:
+        print("update orderitem ERROR : " , str(e))
+        return "update orderitem ERROR : " + str(e)
     
     
 ### Delete Data ###
@@ -395,8 +529,9 @@ def deleterecordController():
         return redirect("/")
 
     except Exception as e:
-        print("delete restaurant ERROR : " , str(e))
-        return "delete restaurant ERROR : " + str(e)
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
 
 def deleterecordBranchController():
     try:
@@ -412,8 +547,9 @@ def deleterecordBranchController():
         return redirect("/displayBranch")
 
     except Exception as e:
-        print("delete branch ERROR : " , str(e))
-        return "delete branch ERROR : " + str(e)
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
 
 def deleterecordMenuItemController():
     try:
@@ -429,8 +565,66 @@ def deleterecordMenuItemController():
         return redirect("/displayMenuItem")
 
     except Exception as e:
-        print("delete menuitem ERROR : " , str(e))
-        return "delete menuitem ERROR : " + str(e)
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
+
+def deleterecordCustomerController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        argument = request.args
+        if ('customer_id' not in argument):
+            deleteCustomer()
+        else:
+            deleteCustomer("customer_id", argument.get('customer_id'))
+        return redirect("/displayCustomer")
+
+    except Exception as e:
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
+
+
+def deleterecordOrderController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        argument = request.args
+        if ('myorder_id' not in argument):
+            deleteOrder()
+        else:
+            deleteOrder("myorder_id", argument.get('myorder_id'))
+        return redirect("/displayOrder")
+
+    except Exception as e:
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
+
+
+def deleterecordOrderItemController():
+    try:
+        # Logs user out if not logged in
+        if not session.get('name'):
+            return redirect('/loginpage')
+
+        argument = request.args
+        if ('orderitem_id' not in argument):
+            deleteOrderItem()
+        else:
+            deleteOrderItem("orderitem_id", argument.get('orderitem_id'))
+        return redirect("/displayOrderItem")
+
+    except Exception as e:
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)
+
 
 def deleterecordEducationController():
     try:
@@ -448,7 +642,6 @@ def deleterecordEducationController():
         return redirect("/displayEducation")
 
     except Exception as e:
-        data = []
-        data.append(str(e))
-        data.append(getClientName(session))
-        return render_template("errorpage.html", data=data)
+        data = str(e)
+        name = getClientName(session)
+        return render_template("errorpage.html", data=data, name=name)

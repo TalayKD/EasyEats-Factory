@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Branch Insert Form</title>
+  <title>EasyEats | Order Update Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -85,8 +85,8 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-             <li class="nav-item">
-              <a href="#" class="nav-link">
+             <li class="nav-item menu-open">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-table"></i>
                 <p>
                   Tables
@@ -119,7 +119,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/displayOrder" class="nav-link">
+                  <a href="/displayOrder" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Order Records Table</p>
                   </a>
@@ -133,8 +133,8 @@
               </ul>
             </li>
             
-            <li class="nav-item menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Forms
@@ -149,7 +149,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/insertpageBranch" class="nav-link active">
+                  <a href="/insertpageBranch" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Branch Input Form</p>
                   </a>
@@ -196,7 +196,6 @@
       <!-- /.sidebar -->
     </aside>
 
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -204,12 +203,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Branch Records Form</h1>
+            <h1>Order Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/displayBranch">Home</a></li>
-              <li class="breadcrumb-item active">Branch Input Form</li>
+              <li class="breadcrumb-item"><a href="/displayOrder">Home</a></li>
+              <li class="breadcrumb-item active">Order Update Form</li>
             </ol>
           </div>
         </div>
@@ -223,41 +222,62 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- general form elements -->
-            <div class="card card-primary">
+            <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Input Branch Record</h3>
+                <h3 class="card-title">Update Order Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/insertdataBranch" method="POST">
+              <form action="/updatedataOrder?myorder_id={{ord[0]}}" method="POST">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="branchname">Branch Name (Format it as Restaurant Name - Branch i.e. KFC -  Sukhumvit)</label>
-                    <input type="text" class="form-control" name="branchname" id="branchname" placeholder="Enter branch name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="restaurant_id">Restaurant</label>
-                    <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                        <option disabled selected value> -- select a restaurant -- </option>
-                        {% for rest in restaurant %}
-                            <option value="{{ rest[0] }}">{{ rest[1] }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="numtable">No. of Tables</label>
-                    <input type="number" class="form-control" name="numtable" id="numtable" placeholder="Enter number of tables" min="0" max="500" required>
-                  </div>
-                  
+                    <div class="form-group">
+                        <label for="customer_id">Customer</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="customer_id" id="customer_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled value> -- select customer making this order -- </option>
+                            {% for cust in customer %}
+                                {% if cust[0] == ord[2] %}
+                                    <option selected="selected" value="{{ cust[0] }}">{{ cust[1] }} {{ cust[2] }}</option>
+                                {% else %}
+                                    <option value="{{ cust[0] }}">{{ cust[1] }} {{ cust[2] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="branch_id">Branch</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="branch_id" id="branch_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled value> -- select branch where order is placed -- </option>
+                            {% for bran in branch %}
+                                {% if bran[0] == ord[3] %}
+                                    <option selected="selected" value="{{ bran[0] }}">{{ bran[1] }}</option>
+                                {% else %}
+                                    <option value="{{ bran[0] }}">{{ bran[1] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tablenumber">Table No.</label>
+                        <input type="number" class="form-control" name="tablenumber" id="tablenumber" value="{{ord[4]}}" placeholder="Enter table number" min="1" max="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ordercompleted">Order Completed</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="ordercompleted" id="ordercompleted" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            {% if ord[6] == True %}
+                                <option selected="selected" value="True">{{ True }}</option>
+                                <option value="False">{{ False }}</option>
+                            {% else %}
+                                <option value=True>{{ True }}</option>
+                                <option selected="selected" value="False">{{ False }}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-warning">Submit</button>
                 </div>
               </form>
             </div>

@@ -1,5 +1,6 @@
 import repository
 import uuid
+from datetime import datetime
 
 from wtforms import Form, StringField, EmailField, PasswordField, validators
 from wtforms.validators import ValidationError
@@ -253,14 +254,20 @@ def insertBranchRow(columns, values):
     values = [uuid.uuid4().hex] + values
     return repository.insert_row("branch", columns, values)
 
+# columns must be ['customer_id', 'branch_id', 'tablenumber', 'ordercompleted']
 def insertOrderRow(columns, values):
     for col in columns:
         if (col not in myorderCols):
             return "One or more columns does not exist in MyOrder Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
-    columns = ['myorder_id'] + columns
-    values = [uuid.uuid4().hex] + values
+    branchName = getBranchRow("branch_id", values[1])[0][1]
+    cust = getCustomerRow("customer_id", values[0])[0]
+    custName = cust[1] + cust[2]
+    orderTime = datetime.now()
+    ordername = str(branchName) + "_" + str(custName) + "_" + str(orderTime)
+    columns = ['myorder_id', 'ordername'] + columns[:-1] + ['ordertime'] + [columns[-1]]
+    values = [uuid.uuid4().hex, ordername] + values[:-1] + [orderTime] + [values[-1]]
     return repository.insert_row("myorder", columns, values)
 
 def insertMenuItemRow(columns, values):
@@ -279,8 +286,11 @@ def insertOrderItemRow(columns, values):
             return "One or more columns does not exist in OrderItem Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
-    columns = ['orderitem_id'] + columns
-    values = [uuid.uuid4().hex] + values
+    print(values)
+    orderBranch = getOrderRow("myorder_id", values[0])[0][3]
+    print(orderBranch)
+    columns = ['orderitem_id', 'branch_id'] + columns
+    values = [uuid.uuid4().hex, orderBranch] + values
     return repository.insert_row("orderitem", columns, values)
 
 
@@ -393,6 +403,13 @@ def updateOrder(data, col=None, row=None):
     else:
         if (row != None):
             return "Row given but col is not specified"
+    branchName = getBranchRow("branch_id", data['branch_id'])[0][1]
+    cust = getCustomerRow("customer_id", data['customer_id'])[0]
+    custName = cust[1] + cust[2]
+    orderTime = datetime.now()
+    ordername = str(branchName) + "_" + str(custName) + "_" + str(orderTime)
+    data['ordername'] = ordername
+    data['ordertime'] = orderTime
     return repository.update_table("myorder", data, col, row)
 
 

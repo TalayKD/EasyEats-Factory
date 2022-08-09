@@ -238,13 +238,14 @@ def insert_row(table, fields, values):
         order = order + str(field) + ','
     order = order[:-1] + ") VALUES("
     for value in values:
-        if (isinstance(value, str)):
+        if (isinstance(value, str) or isinstance(value, object)):
             order = order + "\'" + str(value) + "\'"
         else:
             order = order + str(value)
         order = order + ","
     order = order[:-1] + ")"
     # Connect to database and execute
+    print(order)
     cur.execute(order)
     conn.commit()
 
@@ -254,7 +255,7 @@ def update_table(table, data, col=None, row=None):
     order = "UPDATE " + str(table) + " SET"
     for d in data:
         #check if type is string
-        if (isinstance(data[d], str)):
+        if (isinstance(data[d], str) or isinstance(data[d], object)):
             order = order + " " + str(d) + " = " + "\'" + str(data[d]) + "\'"
         else:
             order = order + " " + str(d) + " = " + str(data[d])
@@ -266,6 +267,7 @@ def update_table(table, data, col=None, row=None):
         else:
             order = order + " WHERE " + str(col) + "=" + str(row)
     #connect to database
+    print(order)
     cur.execute(order)
     conn.commit()
 

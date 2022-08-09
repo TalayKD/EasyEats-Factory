@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Branch Insert Form</title>
+  <title>EasyEats | Customer Insert Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -149,7 +149,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/insertpageBranch" class="nav-link active">
+                  <a href="/insertpageBranch" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Branch Input Form</p>
                   </a>
@@ -161,7 +161,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/insertpageCustomer" class="nav-link">
+                  <a href="/insertpageCustomer" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Customer Input Form</p>
                   </a>
@@ -196,7 +196,6 @@
       <!-- /.sidebar -->
     </aside>
 
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -204,12 +203,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Branch Records Form</h1>
+            <h1>Customer Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/displayBranch">Home</a></li>
-              <li class="breadcrumb-item active">Branch Input Form</li>
+              <li class="breadcrumb-item"><a href="/displayCustomer">Home</a></li>
+              <li class="breadcrumb-item active">Customer Input Form</li>
             </ol>
           </div>
         </div>
@@ -225,32 +224,43 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Input Branch Record</h3>
+                <h3 class="card-title">Input Customer Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/insertdataBranch" method="POST">
+              <form action="/insertdataCustomer" method="POST">
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="branchname">Branch Name (Format it as Restaurant Name - Branch i.e. KFC -  Sukhumvit)</label>
-                    <input type="text" class="form-control" name="branchname" id="branchname" placeholder="Enter branch name" required>
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter first name" required>
                   </div>
                   <div class="form-group">
-                    <label for="restaurant_id">Restaurant</label>
-                    <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                        <option disabled selected value> -- select a restaurant -- </option>
-                        {% for rest in restaurant %}
-                            <option value="{{ rest[0] }}">{{ rest[1] }}</option>
-                        {% endfor %}
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter last name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select class="form-control select2 select2-hidden-accessible" name="gender" id="gender" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                      <option disabled selected value> -- select gender -- </option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required>
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email address" required>
                   </div>
                   <div class="form-group">
-                    <label for="numtable">No. of Tables</label>
-                    <input type="number" class="form-control" name="numtable" id="numtable" placeholder="Enter number of tables" min="0" max="500" required>
+                    <label for="phonenumber">Phone No.</label>
+                    <input type="tel" class="form-control" name="phonenumber" id="phonenumber" placeholder="Enter phone number" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="Enter birthdate" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" class="form-control" name="nationality" id="nationality" placeholder="Enter nationality" required>
                   </div>
                   
                 </div>

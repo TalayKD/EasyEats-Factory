@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EasyEats | Branch Insert Form</title>
+  <title>EasyEats | OrderItem Insert Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -149,7 +149,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/insertpageBranch" class="nav-link active">
+                  <a href="/insertpageBranch" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Branch Input Form</p>
                   </a>
@@ -173,7 +173,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/insertpageOrderItem" class="nav-link">
+                  <a href="/insertpageOrderItem" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>OrderItem Input Form</p>
                   </a>
@@ -204,12 +204,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Branch Records Form</h1>
+            <h1>OrderItem Records Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/displayBranch">Home</a></li>
-              <li class="breadcrumb-item active">Branch Input Form</li>
+              <li class="breadcrumb-item"><a href="/displayOrderItem">Home</a></li>
+              <li class="breadcrumb-item active">OrderItem Input Form</li>
             </ol>
           </div>
         </div>
@@ -225,33 +225,46 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Input Branch Record</h3>
+                <h3 class="card-title">Input OrderItem Record</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/insertdataBranch" method="POST">
+              <form action="/insertdataOrderItem" method="POST">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="branchname">Branch Name (Format it as Restaurant Name - Branch i.e. KFC -  Sukhumvit)</label>
-                    <input type="text" class="form-control" name="branchname" id="branchname" placeholder="Enter branch name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="restaurant_id">Restaurant</label>
-                    <select class="form-control select2 select2-hidden-accessible" name="restaurant_id" id="restaurant_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                        <option disabled selected value> -- select a restaurant -- </option>
-                        {% for rest in restaurant %}
-                            <option value="{{ rest[0] }}">{{ rest[1] }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="numtable">No. of Tables</label>
-                    <input type="number" class="form-control" name="numtable" id="numtable" placeholder="Enter number of tables" min="0" max="500" required>
-                  </div>
+                    <div class="form-group">
+                        <label for="myorder_id">Order</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="myorder_id" id="myorder_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled selected value> -- select order -- </option>
+                            {% for ord in order %}
+                                <option value="{{ ord[0] }}">{{ ord[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="menuitem_id">Menu Item</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="menuitem_id" id="menuitem_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled selected value> -- select menu item -- </option>
+                            {% for menitem in menuitem %}
+                                <option value="{{ menitem[0] }}">{{ menitem[3] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter quantity" min="0" max="300" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="delivered">Order Delivered</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="delivered" id="delivered" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <option disabled selected value> -- is order delivered -- </option>
+                                <option value="True">{{ True }}</option>
+                                <option value="False">{{ False }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customizabletext">Customizable Text</label>
+                        <input type="text" class="form-control" name="customizabletext" id="customizabletext" placeholder="Customize your dish" required>
+                    </div>
                   
                 </div>
                 <!-- /.card-body -->
