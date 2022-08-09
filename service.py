@@ -241,7 +241,6 @@ def insertRestaurantRow(columns, values):
         return "Columns and values don't match"
     columns = ['restaurant_id'] + columns
     values = [uuid.uuid4().hex] + values
-    print("Restaurant inserted")
     return repository.insert_row("restaurant", columns, values)
 
 def insertBranchRow(columns, values):
@@ -286,9 +285,7 @@ def insertOrderItemRow(columns, values):
             return "One or more columns does not exist in OrderItem Table"
     if (len(columns) != len(values)):
         return "Columns and values don't match"
-    print(values)
     orderBranch = getOrderRow("myorder_id", values[0])[0][3]
-    print(orderBranch)
     columns = ['orderitem_id', 'branch_id'] + columns
     values = [uuid.uuid4().hex, orderBranch] + values
     return repository.insert_row("orderitem", columns, values)
@@ -360,7 +357,6 @@ def updateRestaurant(data, col=None, row=None):
     else:
         if (row != None):
             return "Row given but col is not specified"
-    print("got to actual update")
     return repository.update_table("restaurant", data, col, row)
 
 

@@ -231,19 +231,6 @@
               <form action="/updatedataOrderItem?orderitem_id={{orditem[0]}}" method="POST">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="myorder_id">Order</label>
-                        <select class="form-control select2 select2-hidden-accessible" name="myorder_id" id="myorder_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                            <option disabled selected value> -- select order -- </option>
-                            {% for ord in order %}
-                                {% if ord[0] == orditem[1] %}
-                                    <option selected="selected" value="{{ ord[0] }}">{{ ord[1] }}</option>
-                                {% else %}
-                                    <option value="{{ ord[0] }}">{{ ord[1] }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="menuitem_id">Menu Item</label>
                         <select class="form-control select2 select2-hidden-accessible" name="menuitem_id" id="menuitem_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                             <option disabled selected value> -- select menu item -- </option>
