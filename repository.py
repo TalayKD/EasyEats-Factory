@@ -16,13 +16,14 @@ def get_db_connection():
 def close_db_connection():
     cur.close()
     conn.close()
-    print("Database connection closed! Safe to exit app")
     return "Database connection closed! Safe to exit app"
 
-# Initialize connection and cursors
-
-conn = get_db_connection()
-cur = conn.cursor()
+def open_db_connection():
+    global conn
+    conn = get_db_connection()
+    global cur
+    cur = conn.cursor()
+    return "Database connection opened"
 
 #####################
 ### Create tables ###

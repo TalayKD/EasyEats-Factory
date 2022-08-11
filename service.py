@@ -9,8 +9,16 @@ from wtforms.validators import ValidationError
 ### Database Initialization Services ###
 ########################################
 
+def openDB():
+    return repository.open_db_connection()
+
 def closeDB():
     return repository.close_db_connection()
+
+def restartDB():
+    repository.close_db_connection()
+    repository.open_db_connection()
+    return "Database restarted"
 
 clientCols = ["client_id", "name", "email", "password"]
 customerCols = ["customer_id", "firstname", "lastname", "gender", "email", "phonenumber", "birthdate", "nationality"]

@@ -211,10 +211,5 @@ def deleterecordOrderItem():
 
 
 
-# Close Database Connection
-@app.route('/closedb')
-def closedb():
-    return closeDB()
-
 if __name__ == "__main__":
     app.run(debug=True)

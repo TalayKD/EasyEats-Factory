@@ -2,6 +2,7 @@ from service import *
 from flask import session, redirect, render_template, request
 
 def initController():
+    openDB()
     createClientTable()
     createCustomerTable()
     createRestaurantTable()
@@ -529,6 +530,7 @@ def deleterecordController():
         return redirect("/")
 
     except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
@@ -547,6 +549,7 @@ def deleterecordBranchController():
         return redirect("/displayBranch")
 
     except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
@@ -565,6 +568,7 @@ def deleterecordMenuItemController():
         return redirect("/displayMenuItem")
 
     except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
@@ -583,6 +587,7 @@ def deleterecordCustomerController():
         return redirect("/displayCustomer")
 
     except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
@@ -602,6 +607,7 @@ def deleterecordOrderController():
         return redirect("/displayOrder")
 
     except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
@@ -621,27 +627,7 @@ def deleterecordOrderItemController():
         return redirect("/displayOrderItem")
 
     except Exception as e:
-        data = str(e)
-        name = getClientName(session)
-        return render_template("errorpage.html", data=data, name=name)
-
-
-def deleterecordEducationController():
-    try:
-        # Logs user out if not logged in
-        if not session.get('name'):
-            return redirect('/loginpage')
-
-        #for use with postman
-        #data = request.get_json(force=True)
-        argument = request.args
-        if ('education_id' not in argument):
-            deleteEducation()
-        else:
-            deleteEducation("education_id", argument.get('education_id'))
-        return redirect("/displayEducation")
-
-    except Exception as e:
+        restartDB()
         data = str(e)
         name = getClientName(session)
         return render_template("errorpage.html", data=data, name=name)
